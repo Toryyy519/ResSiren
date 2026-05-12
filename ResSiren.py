@@ -66,9 +66,9 @@ class ResBlk(nn.Module):
         return out
 
 
-class ResNet18(nn.Module):
+class ResSiren(nn.Module):
     def __init__(self):
-        super(ResNet18, self).__init__()
+        super(ResSiren, self).__init__()
         self.conv1 = nn.Sequential(
             nn.Conv2d(1, 32, kernel_size=3, stride=3, padding=0),
             nn.BatchNorm2d(32)
@@ -154,7 +154,7 @@ if __name__ == '__main__':
         train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
         test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False)
 
-        model = ResNet18().to(DEVICE)
+        model = ResSiren().to(DEVICE)
         optimize = optim.Adam(model.parameters(), lr=0.001)
 
         train_losses = []
@@ -170,6 +170,7 @@ if __name__ == '__main__':
 
             if accuracy > best_accuracy:
                 best_accuracy = accuracy
+                torch.save(model.state_dict(), "ressiren_weights.pth")
 
         final_results.append(best_accuracy)
 
